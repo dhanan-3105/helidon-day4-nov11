@@ -1,0 +1,86 @@
+Client Parameter in RestClient
+
+/*
+@GET
+@ClientHeaderParam(name="CustomHeader",
+                   value="{io.helidon.examples.quickstart.mpMyHeaderGenerator.generateCustomHeader}",
+                   required=false)
+Response getWithoutCustomHeader();
+
+default String generateRequestId() {
+    return UUID.randomUUID().toString();
+}
+}
+
+public class MyHeaderGenerator {
+    public static String generateCustomHeader(String headerName) {
+        if ("CustomHeader".equals(headerName)) {
+            throw UnsupportedOperationException();
+        }
+        return "SomeValue";
+    }
+}
+     
+ */
+
+
+
+Client Invocation
+
+    @Path("/someOtherPath")
+    @ClientHeaderParam(name="CustomHeader", value="value1")
+    @ClientHeaderParam(name="CustomHeader", value="{generateCustomHeader}")
+
+
+Log Levels
+
+In the Pom.xml
+
+  <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jul</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+
+In the resource folder - /META-INFO
+add log4j2.xml
+=========================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info">
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %p %c{1.} %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="io.helidon" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole" />
+        </Logger>
+        <Root level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole" />
+        </Root>
+    </Loggers>
+</Configuration>
+
+Test the application
+=====================
+Run the application
+mvn package -DskipTests=true
+java  -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -jar target/helidon-quickstart-mp.jar
+
+
+Helidon SE - https://github.com/BorisChistov/blog/tree/helidon-part-1
+oci kms management vault get --vault-id ocid1.vault.oc1.iad.bzqtr2wtaacuu.abuwcljrylhau3fwo3vqpv6ftcjfgazjls7mvhcoadx5zcgqlpybdeust5aq
