@@ -1,0 +1,44 @@
+#
+# Copyright (c) 2021 Oracle and/or its affiliates.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+#
+# The values under oci.properties are read from ~/helidon/conf/examples.yaml
+#
+
+server:
+  port: 8080
+
+#
+# The following properties under app are accessed by the application
+#
+app:
+  vault:
+    # Vault OCID (the vault you want to use for this example)
+    vault-ocid: "ocid1.vault.oc1.iad.bzqtr2wtaacuu.abuwcljrylhau3fwo3vqpv6ftcjfgazjls7mvhcoadx5zcgqlpybdeust5aq"
+    compartment-ocid: "ocid1.tenancy.oc1..aaaaaaaasf5piu7vbf72x2ortivvc5wdisajtpwoupt66qkcdn5v74lgcrvq"
+    encryption-key-ocid: "ocid1.key.oc1.iad.bzqtr2wtaacuu.abuwcljtpwjxa4mccows6w7nsiapphoudsxhcoddllfqrvnskght42rbn2cq"
+    signature-key-ocid: "${oci.properties.vault-rsa-key-ocid}"
+
+#
+# The following properties under oci are accessed by Helidon
+#
+oci:
+  vault:
+    healthchecks: [ "ocid1.vault.oc1.iad.bzqtr2wtaacuu.abuwcljrylhau3fwo3vqpv6ftcjfgazjls7mvhcoadx5zcgqlpybdeust5aq" ]
+  custom:
+    vault:
+      # named OCI configuration
+      cryptographic-endpoint: "https://bzqtr2wtaacuu-crypto.kms.us-ashburn-1.oraclecloud.com"
